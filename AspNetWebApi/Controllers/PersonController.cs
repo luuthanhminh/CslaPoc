@@ -23,10 +23,10 @@ namespace AspNetWebApi.Controllers
         #region GET /api/persons/id
         [HttpGet]
         [Route("{id}")]
-        public IHttpActionResult GetList(int id)
+        public IHttpActionResult GetById(int id)
         {
-            var persons = PersonEdit.GetPersonEdit(id);
-            return Ok(persons);
+            var person = PersonEdit.GetPersonEdit(id);
+            return Ok(person);
         }
         #endregion
     }
