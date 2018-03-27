@@ -4,13 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CslaPoc.Core.Models
+namespace CslaPoc.Core.Models.BindingModels
 {
-    public class Person
+    public class PersonBindingModel
     {
-        public int Id { get; set; }
         public string Name { get; set; }
-
-      
     }
 }

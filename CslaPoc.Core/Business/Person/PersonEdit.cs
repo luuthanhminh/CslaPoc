@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CslaPoc.Core.DataContext;
 
 namespace CslaPoc.Core.Business.Person
 {
@@ -34,7 +35,7 @@ namespace CslaPoc.Core.Business.Person
         #endregion
 
         #region Factory Methods
-        public static PersonEdit NewPersonEdit()
+        public static PersonEdit CreatePerson()
         {
             return DataPortal.Create<PersonEdit>();
         }
@@ -51,10 +52,39 @@ namespace CslaPoc.Core.Business.Person
         #endregion
 
         #region Data Access
+
+       
         private void DataPortal_Fetch(int id)
         {
-            var person = Models.Person.GetById(id);
+            var dbContext = new DbContext();
+            var person = dbContext.GetPerson(id);
 
+            using (BypassPropertyChecks)
+            {
+                Id = person.Id;
+                Name = person.Name;
+            }
+            BusinessRules.CheckRules();
+
+        }
+
+        [Transactional(TransactionalTypes.TransactionScope)]
+        private void DataPortal_Delete(int id)
+        {
+            var dbContext = new DbContext();
+            using (BypassPropertyChecks)
+            {
+                dbContext.DeletePerson(id);
+            }
+        }
+        #endregion
+
+        #region Overrides
+
+        protected override void DataPortal_Create()
+        {
+            var dbContext = new DbContext();
+            var person = dbContext.Create();
             using (BypassPropertyChecks)
             {
                 Id = person.Id;
@@ -63,37 +93,27 @@ namespace CslaPoc.Core.Business.Person
             BusinessRules.CheckRules();
         }
 
+
         [Transactional(TransactionalTypes.TransactionScope)]
         protected override void DataPortal_Insert()
         {
-            // using data context here
-        }
+            var dbContext = new DbContext();
 
-        private void DoInsertUpdate(Models.Person person)
-        {
             using (BypassPropertyChecks)
             {
-                person.Id = Id;
-                person.Name = Name;
+                var person = new Models.Person()
+                {
+                    Name = this.Name
+                };
+                Id = dbContext.InsertPerson(person);
             }
-        }
-
-        [Transactional(TransactionalTypes.TransactionScope)]
-        protected override void DataPortal_Update()
-        {
-            // using data context here
         }
 
         protected override void DataPortal_DeleteSelf()
         {
-            DataPortal_Delete(ReadProperty(IdProperty));
+            DataPortal_Delete(this.Id);
         }
 
-        [Transactional(TransactionalTypes.TransactionScope)]
-        private void DataPortal_Delete(int id)
-        {
-            // using data context here
-        }
         #endregion
     }
 }

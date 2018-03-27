@@ -1,4 +1,5 @@
 ﻿using Csla;
+using CslaPoc.Core.DataContext;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,8 @@ namespace CslaPoc.Core.Business.Person
             RaiseListChangedEvents = false;
             IsReadOnly = false;
 
-            foreach (var item in Models.Person.GetAll())
+
+            foreach (var item in DbContext.Persons)
             {
                 this.Add(PersonInfo.GetInfo(item));
             }
