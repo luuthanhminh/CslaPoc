@@ -8,12 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Flurl.Http;
+using Client.Core.Business;
 
 namespace Winforms
 {
     public partial class MainForm : Form
     {
-        PersonList Persons;
+        private PersonList Persons;
 
         public MainForm()
         {

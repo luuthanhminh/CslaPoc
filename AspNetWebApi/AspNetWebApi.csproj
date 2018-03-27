@@ -116,9 +116,9 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CslaPoc.Core\CslaPoc.Core.csproj">
+    <ProjectReference Include="..\CslaPoc.Core\Server.Core.csproj">
       <Project>{b0b43f97-63be-4634-8be7-8d66539d566d}</Project>
-      <Name>CslaPoc.Core</Name>
+      <Name>Server.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
